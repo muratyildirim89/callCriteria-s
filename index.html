@@ -1,0 +1,2410 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>112 Acil Çağrı Dinleme ve Raporlama Bürosu</title>
+  <link href="../src/style.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bodyLightThema">
+
+  <nav class="navApp">
+
+    <div class="divLogo">
+      <img class="logo" src="../src/logoRed.jpg" alt="112logo" />
+    </div>
+
+    <div class="searchArea">
+      <input type="text" class="form-control searchText" placeholder="Arama Kelimesini Giriniz...">
+      <button class="btn btn-outline-light" type="button">Ara</button>
+    </div>
+
+    <div class="buttonsMenu">
+      <input type="checkbox" class="btn-check" id="btnThema" autocomplete="off">
+      <label class="btn btn-outline-light btnFixedWidth" for="btnThema" onclick="darkMode()">Dark Mode</label><br>
+      <button class="btn btn-outline-light dropdown-toggle btnFixedWidth" type="button" data-bs-toggle="dropdown"
+        aria-expanded="false">Menü</button>
+
+      <ul class="dropdown-menu">
+        <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#workingRange">Dinleme
+            Zaman Aralığı</button></li>
+        <li><button class="dropdown-item" type="button">Çağrı Ekranını Aç</button></li>
+        <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#permission">İzin
+            İşlemleri</button></li>
+        <li><button class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#statistics"
+            aria-controls="offcanvasWithBothOptions">İstatistiklerim</button></li>
+        <li><button class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#themas"
+          aria-controls="offcanvasWithBothOptions">Tema</button></li>
+        <li><button class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#auths"
+            aria-controls="offcanvasWithBothOptions">Yetkilerim</button></li>
+      </ul>
+
+      <div class="modal fade" id="workingRange" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5">Dinleme Zaman Aralığı</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <lu><b>Başlangıç Zamanı: </b></lu></br>
+              <lu class="startTime">01.01.2022 08:00:00</lu></br>
+              <lu><b>Bitiş Zamanı: </b></lu></br>
+              <lu class="finishTime">01.01.2022 12:00:00</lu>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="permission" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5">İzin İşlemleri</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <li>Kısa Süreli İzin Talebi</li>
+              <li>Yıllık İzin Talebi</li>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-bs-dismiss="modal">Talep Oluştur</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="offcanvas offcanvas-start" data-bs-scroll="true" id="statistics">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">İstatistiklerim</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <p>Burada dinlenilen veriler ve hatalı işlem açıklamaları bulunacaktır</p>
+        </div>
+      </div>
+
+      <div class="offcanvas offcanvas-start" data-bs-scroll="true" id="themas">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Kullanılabilir Temalar</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <p>Attention! This use disables the "Dark Mode" button.</p>
+        </div>
+      </div>
+
+      <div class="offcanvas offcanvas-start" data-bs-scroll="true" id="auths">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Yetkilerim</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <p>Burada kişilere verilecek yetkiler listenecektir</p>
+        </div>
+      </div>
+
+    </div>
+
+  </nav>
+
+  <article>
+
+    <div>
+      <table class="showTable table table-success">
+        <tr>
+          <th scope="col">Çağrı Karşılayıcı Adı</th>
+          <th scope="col">Arayan Numara Bilgisi</th>
+          <th scope="col">Arama Zaman Bilgisi</th>
+        </tr>
+      </table>
+    </div>
+
+    <div class="workField">
+      <ul class="nav nav-tabs" role="tablist">
+
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill"
+            data-bs-target="#pills-1" type="button" role="tab">
+            <div class="tabItems">Vaka Çağrısı</div>
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill"
+            data-bs-target="#pills-2" type="button" role="tab">
+            <div class="tabItems">Tekrarlı Vaka Çağrısı</div>
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill"
+            data-bs-target="#pills-3" type="button" role="tab">
+            <div class="tabItems">Sessiz Çağrı</div>
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill"
+            data-bs-target="#pills-4" type="button" role="tab">
+            <div class="tabItems">Danışma</div>
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill"
+            data-bs-target="#pills-5" type="button" role="tab">
+            <div class="tabItems">Kurum içi Görüşme</div>
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill"
+            data-bs-target="#pills-6" type="button" role="tab">
+            <div class="tabItems">Yanlış Kullanım</div>
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill"
+            data-bs-target="#pills-7" type="button" role="tab">
+            <div class="tabItems">Kötü Amaçlı Kullanım</div>
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill"
+            data-bs-target="#pills-8" type="button" role="tab">
+            <div class="tabItems">Çağrı Yönlendirici</div>
+          </button>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="tab-content" style="padding-left: 20px;">
+
+      <div class="tab-pane fade" id="pills-1" role="tabpanel" tabindex="0">
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#VakaAcilisCümlesi">Açılış Cümlesi Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaAcilisCümlesi" id="evetVakaAcilisCümlesi">
+            <label class="btn btn-outline-success" for="evetVakaAcilisCümlesi">Evet</label>
+            <input type="radio" class="btn-check" name="VakaAcilisCümlesi" id="hayirVakaAcilisCümlesi">
+            <label class="btn btn-outline-danger" for="hayirVakaAcilisCümlesi">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#VakaOlayTanimi">Olay Tanımı Doğru İşlendi Mi?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaOlayTanimi" id="evetVakaOlayTanimi">
+            <label class="btn btn-outline-success" for="evetVakaOlayTanimi">Evet</label>
+            <input type="radio" class="btn-check" name="VakaOlayTanimi" id="hayirVakaOlayTanimi">
+            <label class="btn btn-outline-danger" for="hayirVakaOlayTanimi">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#VakaAdres">Adres
+            Sorgulandı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaAdres" id="evetVakaAdres">
+            <label class="btn btn-outline-success" for="evetVakaAdres">Evet</label>
+            <input type="radio" class="btn-check" name="VakaAdres" id="hayirVakaAdres">
+            <label class="btn btn-outline-danger" for="hayirVakaAdres">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#VakaAdresKayit">Adres Sorgusu Vaka Formuna Kaydedildi Mi?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaAdresKayit" id="evetVakaAdresKayit">
+            <label class="btn btn-outline-success" for="evetVakaAdresKayit">Evet</label>
+            <input type="radio" class="btn-check" name="VakaAdresKayit" id="hayirVakaAdresKayit">
+            <label class="btn btn-outline-danger" for="hayirVakaAdresKayit">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#VakaSoruTeknik">Soru Sorma Tekniği Uygun Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaSoruTeknik" id="evetVakaSoruTeknik">
+            <label class="btn btn-outline-success" for="evetVakaSoruTeknik">Evet</label>
+            <input type="radio" class="btn-check" name="VakaSoruTeknik" id="hayirVakaSoruTeknik">
+            <label class="btn btn-outline-danger" for="hayirVakaSoruTeknik">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#VakaKurumSec">Kurum Doğru Seçildi Mi?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaKurumSec" id="evetVakaKurumSec">
+            <label class="btn btn-outline-success" for="evetVakaKurumSec">Evet</label>
+            <input type="radio" class="btn-check" name="VakaKurumSec" id="hayirVakaKurumSec">
+            <label class="btn btn-outline-danger" for="hayirVakaKurumSec">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#VakaAktarimCumlesi">Kuruma Aktarım Cümlesi Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaAktarimCumlesi" id="evetVakaAktarimCumlesi">
+            <label class="btn btn-outline-success" for="evetVakaAktarimCumlesi">Evet</label>
+            <input type="radio" class="btn-check" name="VakaAktarimCumlesi" id="hayirVakaAktarimCumlesi">
+            <label class="btn btn-outline-danger" for="hayirVakaAktarimCumlesi">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#VakaGereksiz">Görev Sorumluluğuna Girmeyen Sorular Soruldu Mu?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaGereksiz" id="evetVakaGereksiz">
+            <label class="btn btn-outline-success" for="evetVakaGereksiz">Evet</label>
+            <input type="radio" class="btn-check" name="VakaGereksiz" id="hayirVakaGereksiz">
+            <label class="btn btn-outline-danger" for="hayirVakaGereksiz">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#VakaIletisim">IMEI Numarasında İletişim Numarası Alındı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaIletisim" id="evetVakaIletisim">
+            <label class="btn btn-outline-success" for="evetVakaIletisim">Evet</label>
+            <input type="radio" class="btn-check" name="VakaIletisim" id="hayirVakaIletisim">
+            <label class="btn btn-outline-danger" for="hayirVakaIletisim">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#VakaOzel">Özel
+            Çağrı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaOzel" id="evetVakaOzel">
+            <label class="btn btn-outline-success" for="evetVakaOzel">Evet</label>
+            <input type="radio" class="btn-check" name="VakaOzel" id="hayirVakaOzel">
+            <label class="btn btn-outline-danger" for="hayirVakaOzel">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#VakaGorusmeSuresi">Çok Uzun / Çok Kısa Görüşme Nedenini Belirtiniz</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaGorusmeSuresi" id="evetVakaGorusmeSuresi">
+            <label class="btn btn-outline-success" for="evetVakaGorusmeSuresi">Evet</label>
+            <input type="radio" class="btn-check" name="VakaGorusmeSuresi" id="hayirVakaGorusmeSuresi">
+            <label class="btn btn-outline-danger" for="hayirVakaGorusmeSuresi">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#VakaSes">İletişim ve Ses Tonu Değerlendirmesi</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="VakaSes" id="evetVakaSes">
+            <label class="btn btn-outline-success" for="evetVakaSes">Evet</label>
+            <input type="radio" class="btn-check" name="VakaSes" id="hayirVakaSes">
+            <label class="btn btn-outline-danger" for="hayirVakaSes">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group mb-3 formName">
+          <span class="input-group-text" id="inputGroup-sizing-default">Uzman Operatör Görüşü</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default">
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="pills-2" role="tabpanel" tabindex="0">
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#TekrarliAcilis">Açılış Cümlesi Uygun Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="TekrarliAcilis" id="evetTekrarliAcilis">
+            <label class="btn btn-outline-success" for="evetTekrarliAcilis">Evet</label>
+            <input type="radio" class="btn-check" name="TekrarliAcilis" id="hayirTekrarliAcilis">
+            <label class="btn btn-outline-danger" for="hayirTekrarliAcilis">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#TekrarliForm">Vaka Formu İlişkilendirildi Mi?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="TekrarliForm" id="evetTekrarliForm">
+            <label class="btn btn-outline-success" for="evetTekrarliForm">Evet</label>
+            <input type="radio" class="btn-check" name="TekrarliForm" id="hayirTekrarliForm">
+            <label class="btn btn-outline-danger" for="hayirTekrarliForm">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#TekrarliAdres">Adres Bilgisi Kontrolü Yapıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="TekrarliAdres" id="evetTekrarliAdres">
+            <label class="btn btn-outline-success" for="evetTekrarliAdres">Evet</label>
+            <input type="radio" class="btn-check" name="TekrarliAdres" id="hayirTekrarliAdres">
+            <label class="btn btn-outline-danger" for="hayirTekrarliAdres">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#TekrarliKurum">Kurum Doğru Seçildi Mi?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="TekrarliKurum" id="evetTekrarliKurum">
+            <label class="btn btn-outline-success" for="evetTekrarliKurum">Evet</label>
+            <input type="radio" class="btn-check" name="TekrarliKurum" id="hayirTekrarliKurum">
+            <label class="btn btn-outline-danger" for="hayirTekrarliKurum">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#TekrarliAktarim">Kuruma Aktarım Cümlesi Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="TekrarliAktarim" id="evetTekrarliAktarim">
+            <label class="btn btn-outline-success" for="evetTekrarliAktarim">Evet</label>
+            <input type="radio" class="btn-check" name="TekrarliAktarim" id="hayirTekrarliAktarim">
+            <label class="btn btn-outline-danger" for="hayirTekrarliAktarim">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#TekrarliGereksiz">Görev Sorumluluğuna Girmeyen Sorular Soruldu Mu?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="TekrarliGereksiz" id="evetTekrarliGereksiz">
+            <label class="btn btn-outline-success" for="evetTekrarliGereksiz">Evet</label>
+            <input type="radio" class="btn-check" name="TekrarliGereksiz" id="hayirTekrarliGereksiz">
+            <label class="btn btn-outline-danger" for="hayirTekrarliGereksiz">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#TekrarliIletisim">IMEI Numarasında İletişim Numarası Alındı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="TekrarliIletisim" id="evetTekrarliIletisim">
+            <label class="btn btn-outline-success" for="evetTekrarliIletisim">Evet</label>
+            <input type="radio" class="btn-check" name="TekrarliIletisim" id="hayirTekrarliIletisim">
+            <label class="btn btn-outline-danger" for="hayirTekrarliIletisim">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#TekrarliOzel">Özel Çağrı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="TekrarliOzel" id="evetTekrarliOzel">
+            <label class="btn btn-outline-success" for="evetTekrarliOzel">Evet</label>
+            <input type="radio" class="btn-check" name="TekrarliOzel" id="hayirTekrarliOzel">
+            <label class="btn btn-outline-danger" for="hayirTekrarliOzel">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#TekrarliGorusmeSuresi">Çok Uzun / Çok Kısa Görüşme Nedenini Belirtiniz</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="TekrarliGorusmeSuresi" id="evetTekrarliGorusmeSuresi">
+            <label class="btn btn-outline-success" for="evetTekrarliGorusmeSuresi">Evet</label>
+            <input type="radio" class="btn-check" name="TekrarliGorusmeSuresi" id="hayirTekrarliGorusmeSuresi">
+            <label class="btn btn-outline-danger" for="hayirTekrarliGorusmeSuresi">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#TekrarliSes">İletişim Ve Ses Tonu Değerlendirmesi</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="TekrarliSes" id="evetTekrarliSes">
+            <label class="btn btn-outline-success" for="evetTekrarliSes">Evet</label>
+            <input type="radio" class="btn-check" name="TekrarliSes" id="hayirTekrarliSes">
+            <label class="btn btn-outline-danger" for="hayirTekrarliSes">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group mb-3 formName">
+          <span class="input-group-text" id="inputGroup-sizing-default">Uzman Operatör Görüşü</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default">
+        </div>
+
+      </div>
+
+      <div class="tab-pane fade" id="pills-3" role="tabpanel" tabindex="0">
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#SessizAcilis">Açılış Cümlesi Uygun Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="SessizAcilis" id="evetSessizAcilis">
+            <label class="btn btn-outline-success" for="evetSessizAcilis">Evet</label>
+            <input type="radio" class="btn-check" name="SessizAcilis" id="hayirSessizAcilis">
+            <label class="btn btn-outline-danger" for="hayirSessizAcilis">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#SessizOrtam">Sessiz Ortam Dinlendi Mi?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="SessizOrtam" id="evetSessizOrtam">
+            <label class="btn btn-outline-success" for="evetSessizOrtam">Evet</label>
+            <input type="radio" class="btn-check" name="SessizOrtam" id="hayirSessizOrtam">
+            <label class="btn btn-outline-danger" for="hayirSessizOrtam">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#SessizKapanis">Kapanış Cümlesi Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="SessizKapanis" id="evetSessizKapanis">
+            <label class="btn btn-outline-success" for="evetSessizKapanis">Evet</label>
+            <input type="radio" class="btn-check" name="SessizKapanis" id="hayirSessizKapanis">
+            <label class="btn btn-outline-danger" for="hayirSessizKapanis">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#SessizSes">İletişim ve Ses Tonu Değerlendirmesi</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="SessizSes" id="evetSessizSes">
+            <label class="btn btn-outline-success" for="evetSessizSes">Evet</label>
+            <input type="radio" class="btn-check" name="SessizSes" id="hayirSessizSes">
+            <label class="btn btn-outline-danger" for="hayirSessizSes">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group mb-3 formName">
+          <span class="input-group-text" id="inputGroup-sizing-default">Uzman Operatör Görüşü</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default">
+        </div>
+
+      </div>
+
+      <div class="tab-pane fade" id="pills-4" role="tabpanel" tabindex="0">
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#DanismaAcilisCümlesi">Açılış Cümlesi Uygun Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="DanismaAcilisCümlesi" id="evetDanismaAcilisCümlesi">
+            <label class="btn btn-outline-success" for="evetDanismaAcilisCümlesi">Evet</label>
+            <input type="radio" class="btn-check" name="DanismaAcilisCümlesi" id="hayirDanismaAcilisCümlesi">
+            <label class="btn btn-outline-danger" for="hayirDanismaAcilisCümlesi">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#DanismaYonlendirme">Doğru Yönlendirme Yapıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="DanismaYonlendirme" id="evetDanismaYonlendirme">
+            <label class="btn btn-outline-success" for="evetDanismaYonlendirme">Evet</label>
+            <input type="radio" class="btn-check" name="DanismaYonlendirme" id="hayirDanismaYonlendirme">
+            <label class="btn btn-outline-danger" for="hayirDanismaYonlendirme">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#DanismaOzel">Özel Çağrı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="DanismaOzel" id="evetDanismaOzel">
+            <label class="btn btn-outline-success" for="evetDanismaOzel">Evet</label>
+            <input type="radio" class="btn-check" name="DanismaOzel" id="hayirDanismaOzel">
+            <label class="btn btn-outline-danger" for="hayirDanismaOzel">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#DanismaGorusme">Çok Uzun / Çok Kısa Görüşme Nedenini Belirtiniz</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="DanismaGorusme" id="evetDanismaGorusme">
+            <label class="btn btn-outline-success" for="evetDanismaGorusme">Evet</label>
+            <input type="radio" class="btn-check" name="DanismaGorusme" id="hayirDanismaGorusme">
+            <label class="btn btn-outline-danger" for="hayirDanismaGorusme">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#DanismaSes">İletişim ve Ses Tonu Değerlendirmesi</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="DanismaSes" id="evetDanismaSes">
+            <label class="btn btn-outline-success" for="evetDanismaSes">Evet</label>
+            <input type="radio" class="btn-check" name="DanismaSes" id="hayirDanismaSes">
+            <label class="btn btn-outline-danger" for="hayirDanismaSes">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group mb-3 formName">
+          <span class="input-group-text" id="inputGroup-sizing-default">Uzman Operatör Görüşü</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default">
+        </div>
+
+      </div>
+
+      <div class="tab-pane fade" id="pills-5" role="tabpanel" tabindex="0">
+        <select class="form-select" style="width: 45%; margin: auto;">
+          <option selected>Kurum Seçiniz...</option>
+          <option value="1">Ekip - Sağlık</option>
+          <option value="2">Personel Araması</option>
+          <option value="3">Koordinasyon</option>
+          <option value="4">Nakil</option>
+          <option value="5">Diğer Aramalar</option>
+        </select>
+
+        <div style="visibility: hidden;">
+
+          <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+              data-bs-target="#KurumAcilisCümlesi">Açılış Cümlesi Kullanıldı Mı?</button>
+            <div style="float:right; width: 65%;">
+              <input type="radio" class="btn-check" name="KurumAcilisCümlesi" id="evetKurumAcilisCümlesi">
+              <label class="btn btn-outline-success" for="evetKurumAcilisCümlesi">Evet</label>
+              <input type="radio" class="btn-check" name="KurumAcilisCümlesi" id="hayirKurumAcilisCümlesi">
+              <label class="btn btn-outline-danger" for="hayirKurumAcilisCümlesi">Hayır</label>
+              <select class="form-select" style="width: 83%; display:inline ">
+                <option selected>Açıklama Seçiniz...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+              data-bs-target="#KurumDogru">Kurum Doğru Seçildi Mi?</button>
+            <div style="float:right; width: 65%;">
+              <input type="radio" class="btn-check" name="KurumDogru" id="evetKurumDogru">
+              <label class="btn btn-outline-success" for="evetKurumDogru">Evet</label>
+              <input type="radio" class="btn-check" name="KurumDogru" id="hayirKurumDogru">
+              <label class="btn btn-outline-danger" for="hayirKurumDogru">Hayır</label>
+              <select class="form-select" style="width: 83%; display:inline ">
+                <option selected>Açıklama Seçiniz...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+              data-bs-target="#KurumAktarimCümlesi">Kuruma Aktarım Cümlesi Kullanıldı Mı?</button>
+            <div style="float:right; width: 65%;">
+              <input type="radio" class="btn-check" name="KurumAktarimCümlesi" id="evetKurumAktarimCümlesi">
+              <label class="btn btn-outline-success" for="evetKurumAktarimCümlesi">Evet</label>
+              <input type="radio" class="btn-check" name="KurumAktarimCümlesi" id="hayirKurumAktarimCümlesi">
+              <label class="btn btn-outline-danger" for="hayirKurumAktarimCümlesi">Hayır</label>
+              <select class="form-select" style="width: 83%; display:inline ">
+                <option selected>Açıklama Seçiniz...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+              data-bs-target="#KurumIletisim">IMEI Numarasında İletişim Numarası Alındı Mı?</button>
+            <div style="float:right; width: 65%;">
+              <input type="radio" class="btn-check" name="KurumIletisim" id="evetKurumIletisim">
+              <label class="btn btn-outline-success" for="evetKurumIletisim">Evet</label>
+              <input type="radio" class="btn-check" name="KurumIletisim" id="hayirKurumIletisim">
+              <label class="btn btn-outline-danger" for="hayirKurumIletisim">Hayır</label>
+              <select class="form-select" style="width: 83%; display:inline ">
+                <option selected>Açıklama Seçiniz...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+              data-bs-target="#KurumOzel">Özel Çağrı Mı?</button>
+            <div style="float:right; width: 65%;">
+              <input type="radio" class="btn-check" name="KurumOzel" id="evetKurumOzel">
+              <label class="btn btn-outline-success" for="evetKurumOzel">Evet</label>
+              <input type="radio" class="btn-check" name="KurumOzel" id="hayirKurumOzel">
+              <label class="btn btn-outline-danger" for="hayirKurumOzel">Hayır</label>
+              <select class="form-select" style="width: 83%; display:inline ">
+                <option selected>Açıklama Seçiniz...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+              data-bs-target="#KurumSes">İletişim ve Ses Tonu Değerlendirmesi</button>
+            <div style="float:right; width: 65%;">
+              <input type="radio" class="btn-check" name="KurumSes" id="evetKurumSes">
+              <label class="btn btn-outline-success" for="evetKurumSes">Evet</label>
+              <input type="radio" class="btn-check" name="KurumSes" id="hayirKurumSes">
+              <label class="btn btn-outline-danger" for="hayirKurumSes">Hayır</label>
+              <select class="form-select" style="width: 83%; display:inline ">
+                <option selected>Açıklama Seçiniz...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="input-group mb-3 formName">
+            <span class="input-group-text" id="inputGroup-sizing-default">Uzman Operatör Görüşü</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default">
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="pills-6" role="tabpanel" tabindex="0">
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#YanlisAcilisCümlesi">Açılış Cümlesi Uygun Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="YanlisAcilisCümlesi" id="evetYanlisAcilisCümlesi">
+            <label class="btn btn-outline-success" for="evetYanlisAcilisCümlesi">Evet</label>
+            <input type="radio" class="btn-check" name="YanlisAcilisCümlesi" id="hayirYanlisAcilisCümlesi">
+            <label class="btn btn-outline-danger" for="hayirYanlisAcilisCümlesi">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#YanlisKapanisCümlesi">Kapanış Cümlesi Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="OpeningSentence" id="successOpeningSentence">
+            <label class="btn btn-outline-success" for="successOpeningSentence">Evet</label>
+            <input type="radio" class="btn-check" name="OpeningSentence" id="dangerOpeningSentence">
+            <label class="btn btn-outline-danger" for="dangerOpeningSentence">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#YanlisSes">İletişim ve Ses Tonu Değerlendirmesi</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="Question" id="successQuestion">
+            <label class="btn btn-outline-success" for="successQuestion">Evet</label>
+            <input type="radio" class="btn-check" name="Question" id="dangerQuestion">
+            <label class="btn btn-outline-danger" for="dangerQuestion">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group mb-3 formName">
+          <span class="input-group-text" id="inputGroup-sizing-default">Uzman Operatör Görüşü</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default">
+        </div>
+
+      </div>
+
+      <div class="tab-pane fade" id="pills-7" role="tabpanel" tabindex="0">
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#KötüAcilis">Açılış Cümlesi Uygun Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="KötüAcilis" id="evetKötüAcilis">
+            <label class="btn btn-outline-success" for="evetKötüAcilis">Evet</label>
+            <input type="radio" class="btn-check" name="KötüAcilis" id="hayirKötüAcilis">
+            <label class="btn btn-outline-danger" for="hayirKötüAcilis">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#KötüUyari">Uyarı
+            Cümlesi Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="OpeningSentence" id="successOpeningSentence">
+            <label class="btn btn-outline-success" for="successOpeningSentence">Evet</label>
+            <input type="radio" class="btn-check" name="OpeningSentence" id="dangerOpeningSentence">
+            <label class="btn btn-outline-danger" for="dangerOpeningSentence">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#KötüSes">İletişim ve Ses Tonu Değerlendirmesi</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="Question" id="successQuestion">
+            <label class="btn btn-outline-success" for="successQuestion">Evet</label>
+            <input type="radio" class="btn-check" name="Question" id="dangerQuestion">
+            <label class="btn btn-outline-danger" for="dangerQuestion">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group mb-3 formName">
+          <span class="input-group-text" id="inputGroup-sizing-default">Uzman Operatör Görüşü</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default">
+        </div>
+
+      </div>
+
+      <div class="tab-pane fade" id="pills-8" role="tabpanel" tabindex="0">
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#YönAcilisCümlesi">Açılış Cümlesi Uygun Kullanıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="YönAcilisCümlesi" id="evetYönAcilisCümlesi">
+            <label class="btn btn-outline-success" for="evetYönAcilisCümlesi">Evet</label>
+            <input type="radio" class="btn-check" name="YönAcilisCümlesi" id="hayirYönAcilisCümlesi">
+            <label class="btn btn-outline-danger" for="hayirYönAcilisCümlesi">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#YönAdres">Adres
+            Teyidi Yapıldı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="YönAdres" id="evetYönAdres">
+            <label class="btn btn-outline-success" for="evetYönAdres">Evet</label>
+            <input type="radio" class="btn-check" name="YönAdres" id="hayirYönAdres">
+            <label class="btn btn-outline-danger" for="hayirYönAdres">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#YönKoordinasyon">Koordinasyon Sağlandı Mı???</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="YönKoordinasyon" id="evetYönKoordinasyon">
+            <label class="btn btn-outline-success" for="evetYönKoordinasyon">Evet</label>
+            <input type="radio" class="btn-check" name="YönKoordinasyon" id="hayirYönKoordinasyon">
+            <label class="btn btn-outline-danger" for="hayirYönKoordinasyon">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#YönYönlendirme">Formundaki Bilgilere Göre Yönlendirildi Mi???</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="YönYönlendirme" id="evetYönYönlendirme">
+            <label class="btn btn-outline-success" for="evetYönYönlendirme">Evet</label>
+            <input type="radio" class="btn-check" name="YönYönlendirme" id="hayirYönYönlendirme">
+            <label class="btn btn-outline-danger" for="hayirYönYönlendirme">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#YönSes">İletişim
+            Ve Ses Tonu Uygun Mu?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="YönSes" id="evetYönSes">
+            <label class="btn btn-outline-success" for="evetYönSes">Evet</label>
+            <input type="radio" class="btn-check" name="YönSes" id="hayirYönSes">
+            <label class="btn btn-outline-danger" for="hayirYönSes">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#YönEksik">Formdaki Eksik Bilgilerin Tamamladı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="YönEksik" id="evetYönEksik">
+            <label class="btn btn-outline-success" for="evetYönEksik">Evet</label>
+            <input type="radio" class="btn-check" name="YönEksik" id="hayirYönEksik">
+            <label class="btn btn-outline-danger" for="hayirYönEksik">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formName"><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#YönOzel">Özel
+            Çağrı Mı?</button>
+          <div style="float:right; width: 65%;">
+            <input type="radio" class="btn-check" name="YönOzel" id="evetYönOzel">
+            <label class="btn btn-outline-success" for="evetYönOzel">Evet</label>
+            <input type="radio" class="btn-check" name="YönOzel" id="hayirYönOzel">
+            <label class="btn btn-outline-danger" for="hayirYönOzel">Hayır</label>
+            <select class="form-select" style="width: 83%; display:inline ">
+              <option selected>Açıklama Seçiniz...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group mb-3 formName">
+          <span class="input-group-text" id="inputGroup-sizing-default">Uzman Operatör Görüşü</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default">
+        </div>
+      </div>
+
+    </div>
+
+  </article>
+
+  <aside class="aside">
+    <div>
+      <table class="tablePersonal table table-success table-hover">
+        <thead>
+          <tr class="tableHead">
+            <th scope="col"></th>
+            <th scope="col">Kullanıcı Adı</th>
+            <th scope="col">Arayan Numara</th>
+            <th scope="col">Arama Zamanı</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td class="personelName">Çağrı Karşılayıcı 1</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td class="personelName">Çağrı Karşılayıcı 2</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td class="personelName">Çağrı Karşılayıcı 3</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td class="personelName">Çağrı Karşılayıcı 4</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td class="personelName">Çağrı Karşılayıcı 5</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">6</th>
+            <td class="personelName">Çağrı Karşılayıcı 6</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">7</th>
+            <td class="personelName">Çağrı Karşılayıcı 7</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">8</th>
+            <td class="personelName">Çağrı Karşılayıcı 8</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">9</th>
+            <td class="personelName">Çağrı Karşılayıcı 9</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">10</th>
+            <td class="personelName">Çağrı Karşılayıcı 10</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">11</th>
+            <td class="personelName">Çağrı Karşılayıcı 11</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">12</th>
+            <td class="personelName">Çağrı Karşılayıcı 12</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">13</th>
+            <td class="personelName">Çağrı Karşılayıcı 13</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">14</th>
+            <td class="personelName">Çağrı Karşılayıcı 14</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">15</th>
+            <td class="personelName">Çağrı Karşılayıcı 15</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">16</th>
+            <td class="personelName">Çağrı Karşılayıcı 16</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">17</th>
+            <td class="personelName">Çağrı Karşılayıcı 17</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">18</th>
+            <td class="personelName">Çağrı Karşılayıcı 18</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">19</th>
+            <td class="personelName">Çağrı Karşılayıcı 19</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">20</th>
+            <td class="personelName">Çağrı Karşılayıcı 20</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <th scope="row">21</th>
+          <td class="personelName">Çağrı Karşılayıcı 1</td>
+          <td>0532 123 45 67</td>
+          <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">22</th>
+            <td class="personelName">Çağrı Karşılayıcı 2</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">23</th>
+            <td class="personelName">Çağrı Karşılayıcı 3</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">24</th>
+            <td class="personelName">Çağrı Karşılayıcı 4</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">25</th>
+            <td class="personelName">Çağrı Karşılayıcı 5</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">26</th>
+            <td class="personelName">Çağrı Karşılayıcı 6</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">27</th>
+            <td class="personelName">Çağrı Karşılayıcı 7</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">28</th>
+            <td class="personelName">Çağrı Karşılayıcı 8</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">29</th>
+            <td class="personelName">Çağrı Karşılayıcı 9</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">30</th>
+            <td class="personelName">Çağrı Karşılayıcı 10</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">31</th>
+            <td class="personelName">Çağrı Karşılayıcı 11</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">32</th>
+            <td class="personelName">Çağrı Karşılayıcı 12</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">33</th>
+            <td class="personelName">Çağrı Karşılayıcı 13</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">34</th>
+            <td class="personelName">Çağrı Karşılayıcı 14</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">35</th>
+            <td class="personelName">Çağrı Karşılayıcı 15</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">36</th>
+            <td class="personelName">Çağrı Karşılayıcı 16</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">37</th>
+            <td class="personelName">Çağrı Karşılayıcı 17</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">38</th>
+            <td class="personelName">Çağrı Karşılayıcı 18</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">39</th>
+            <td class="personelName">Çağrı Karşılayıcı 19</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+          <tr>
+            <th scope="row">40</th>
+            <td class="personelName">Çağrı Karşılayıcı 20</td>
+            <td>0532 123 45 67</td>
+            <td>06.10.2022 15:45:00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </aside>
+
+  <footer style="border: dotted 2px rgb(145,55,55); height: 5%;">
+    <div class="progress"
+      style="margin: 1rem 1rem; width: 85%;display: inline-flex ; height: 8%;border: dotted 0.1px rgb(0, 0, 0);border-radius: 20px;">
+      <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+        style="width: 75% ; border: solid 0.5px rgb(255, 255, 255); border-radius: 20px;">%75</div>
+    </div>
+    <div style="display: inline-block; margin:0rem 2.5rem">
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Verilerimi
+        Kaydet</button>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog  modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Çağrı Dinleme Uygulaması</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <lu><b>Kayıt Bilgileri</b></lu>
+            <li>Gönderilen Sayı : 4000</li>
+            <li>Dinlenilen Sayı : 2000</li>
+            <li>Dinlenilen Süre : 450 dk</li>
+            <li>İlerleme Çubuğu : %75</li>
+            <lu><b>Çalışma Süresi</b></lu>
+            <li>Sisteme Giriş: 01.01.2022 08:00</li>
+            <li>Toplam Harcanan Süre: 200 dk</li>
+            <li>Hedefe Ulaşıldı mı? Hayır</li>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            <button type="button" class="btn btn-primary">Verileri Kaydet</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../src/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaAcilisCümlesi" tabindex="-1" aria-labelledby="VakaAcilisCümlesi" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaAcilisCümlesi">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Çağrı Karşılayıcı <i>"Acil Çağrı Merkezi"</i> diyerek konuşmaya başlaması gerekmektedir. Başka
+            biriyle konuşurken veya ihbarcı konuşmaya başladıktan sonra Acil Çağrı Merkezi ifadesini kullanıyor olması
+            takip gerektiren bir hata türüdür.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaOlayTanimi" tabindex="-1" aria-labelledby="VakaOlayTanimi" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaOlayTanimi">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            İhbarcının belirttiği şekilde, açık ve net şekilde vaka formuna işlenmesi durumudur. Bu durumun analizi için
+            uygulama ekranına bakılmalıdır.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaAdres" tabindex="-1" aria-labelledby="VakaAdres" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaAdres">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı? Sisteme otomatik düşse dahi Çağrı Karşılayıcı adresi hızlıca teyit
+            etmekle yükümlüdür. Adresin uyuşmaması veya sistemde görünmemesi durumunda
+            adresi <b>İlçe, Mahalle, Cadde - Sokak ve Numara</b> alması gerekmektedir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaAdresKayit" tabindex="-1" aria-labelledby="VakaAdresKayit" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaAdresKayit">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı? Sisteme otomatik düşse dahi Çağrı Karşılayıcı adresi hızlıca teyit
+            etmekle yükümlüdür. Adresin uyuşmaması veya sistemde görünmemesi durumunda
+            adresi <b>İlçe, Mahalle, Cadde - Sokak ve Numara</b> alması gerekmektedir. Bu alınan adresin uygulama
+            ekranından teyit edilmesi gerekmektedir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaSoruTeknik" tabindex="-1" aria-labelledby="VakaSoruTeknik" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaSoruTeknik">Soru Sorma Tekniği</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Soru Sorma Tekniği; Çağrı Karşılayıcının ihbarcının bulunduğu durumu analiz edip duruma yön vermesidir. Eğer
+            ihbarcı şok halindeyse onu bulunduğu durumdan çıkaracak şekilde
+            sorular sorması gerekir. Nerede olduğun unutması durumunda ise evde faturalara bakmasını hatırlatması veya
+            dışarıda ise cadde-sokak tabelasına bakmasını hatırlatması gibi.
+            Bununla birlikte zor durumda olduğu inandığı ihbarcıyla sohbet havasında konuşmaya çalışacarak onu
+            rahatlatması beklenen bir performans iken gereksiz arayanlar ile sohbet etmesi
+            istenmeyen bir davranış biçimidir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaKurumSec" tabindex="-1" aria-labelledby="VakaKurumSec" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaKurumSec">Kurum Doğru Seçildi Mi?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Kurumun doğru seçilmesi, koordinasyon gerektiren (birden fazla kurumu ilgilendiren) çağrılarda öncelik
+            verilmesi gereken kurumlara öncelik tanınmaması bu maddenin konusudur. Ayrıca
+            tek kurumu ilgilendiren konularda da hatalı kuruma çağrının gönderilmesi de yine hatalı olarak bu maddede
+            işlenecektir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaAktarimCumlesi" tabindex="-1" aria-labelledby="VakaAktarimCumlesi" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaAktarimCumlesi">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Çağrı Karşılayıcı, kuruma aktarmadan hangi kuruma aktardığını ihbarcıya söylemesi gerekmektedir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaGereksiz" tabindex="-1" aria-labelledby="VakaGereksiz" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaGereksiz">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Çağrı Karşılayıcı'nın konuyu kısa öğrenip kuruma aktarması için sorması gereken sorular dışında kalan tüm
+            sorular bu maddeyi ilgilendirmektedir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaIletisim" tabindex="-1" aria-labelledby="VakaIletisim" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaIletisim">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Sisteme IMEI numarası, 112 Araması veya Yurtdışı (Yabancı) numara olarak düşen çağrılarda Çağrı
+            Karşılayıcı'nın dönüş yapılması gereken durumlar için iletişim numarası Sorgusu
+            yapması gerekmektedir. Bu madde 0312 112 11 22 formatı dışında gelen çağrılarda görünecektir ve +90312 112
+            11 22 formatında gelen çağrılarda telefon numarası alındı kabul edilecektir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaOzel" tabindex="-1" aria-labelledby="VakaOzel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaOzel">Özel Çağrı</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Kurumumuzu ilgilendiren her türlü <i>Teşekkür, Rica, Tartışma ve Kavga</i> Çağrısı bu kapsam dahilindedir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaGorusmeSuresi" tabindex="-1" aria-labelledby="VakaGorusmeSuresi" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaGorusmeSuresi">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Uzun Görüşme; eğer görüşme süresi 1 dk 30 s üzerinde ise konuyu hızlıca öğrenmeye çalışıp kuruma
+            aktarmamışsa ve nedeni ise zor durumda olan ihbarcı sakinleştirme vs durumu yoksa bu
+            maddeyi işaretlemek gerekmektedir.
+          </p></br>
+          <p>
+            Kısa Görüşme; Aç - Kapa şeklindeki çağrıların tespiti için kullanılan bu seçenek eğer "Acil Çağrı Merkezi"
+            sözüyle birlikte 8 sn beklemeden Çağrı Karşılayıcı kapatırsa bu maddeyi ilgilendirmektedir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Area-->
+  <div class="modal fade" id="VakaSes" tabindex="-1" aria-labelledby="VakaSes" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="VakaSes">İletişim ve Ses Tonu</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Görüşme esnasında Çağrı Karşılayıcı'nın üslubunu, ihbarcıya hitabını inceleyeceği durumdur.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="TekrarliAcilis" tabindex="-1" aria-labelledby="TekrarliAcilis" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TekrarliAcilis">Acil Çağrı Merkezi</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Çağrı Karşılayıcı <i>"Acil Çağrı Merkezi"</i> diyerek konuşmaya başlaması gerekmektedir. Başka
+            biriyle konuşurken veya ihbarcı konuşmaya başladıktan sonra Acil Çağrı Merkezi ifadesini kullanıyor olması
+            takip gerektiren bir hata türüdür.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="TekrarliForm" tabindex="-1" aria-labelledby="TekrarliForm" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TekrarliForm">Vaka Formu İlişkilendirildi Mi?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Tekrar arayan ihbarcı için yeniden vaka formu oluşturulmaz. Daha önce açılmış vaka formunu bulup
+            ilişkilendirmesi gerekmektedir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="TekrarliAdres" tabindex="-1" aria-labelledby="TekrarliAdres" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TekrarliAdres">Adres Bilgisi Kontrolü Yapıldı Mı?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Bilgisi Kontrolü Yapıldı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="TekrarliKurum" tabindex="-1" aria-labelledby="TekrarliKurum" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TekrarliKurum">Kurum Doğru Seçildi mi?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Kurum Doğru Seçildi mi?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="TekrarliAktarim" tabindex="-1" aria-labelledby="TekrarliAktarim" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TekrarliAktarim">Tekrarlı Aramada Aktarım Cümlesi Kullanıldı Mı?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Tekrarlı Aramada Aktarım Cümlesi Kullanıldı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="TekrarliGereksiz" tabindex="-1" aria-labelledby="TekrarliGereksiz" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TekrarliGereksiz">Görev Sorumluluğuna Girmeyen Sorular Soruldu mu?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Görev Sorumluluğuna Girmeyen Sorular Soruldu mu?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="TekrarliIletisim" tabindex="-1" aria-labelledby="TekrarliIletisim" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TekrarliIletisim">İletişim Numarası</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Sisteme IMEI numarası, 112 Araması veya Yurtdışı (Yabancı) numara olarak düşen çağrılarda Çağrı
+            Karşılayıcı'nın dönüş yapılması gereken durumlar için iletişim numarası Sorgusu
+            yapması gerekmektedir. Bu madde 0312 112 11 22 formatı dışında gelen çağrılarda görünecektir ve +90312 112
+            11 22 formatında gelen çağrılarda telefon numarası alındı kabul edilecektir.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="TekrarliOzel" tabindex="-1" aria-labelledby="TekrarliOzel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TekrarliOzel">Özel Çağrı</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Özel Çağrı
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="TekrarliGorusmeSuresi" tabindex="-1" aria-labelledby="TekrarliGorusmeSuresi"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TekrarliGorusmeSuresi">Görüşme Süresi</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Uzun / Kısa Görüşme
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="TekrarliSes" tabindex="-1" aria-labelledby="TekrarliSes" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TekrarliSes">İletişim ve Ses Tonu Değerlendirmesi</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            İletişim ve Ses Tonu Değerlendirmesi
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="SessizAcilis" tabindex="-1" aria-labelledby="SessizAcilis" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="SessizAcilis">Açılış Cümlesi Uygun Kullanıldı Mı?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Açılış Cümlesi Uygun Kullanıldı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Area-->
+  <div class="modal fade" id="SessizOrtam" tabindex="-1" aria-labelledby="SessizOrtam" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="SessizOrtam">Sessiz Ortam Dinlendi Mi?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Sessiz Ortam Dinlendi Mi?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="SessizKapanis" tabindex="-1" aria-labelledby="SessizKapanis" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="SessizKapanis">Kapanış Cümlesi Kullanıldı Mı?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Kapanış Cümlesi Kullanıldı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="SessizSes" tabindex="-1" aria-labelledby="SessizSes" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="SessizSes">İletişim ve Ses Tonu Değerlendirmesi</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            İletişim ve Ses Tonu Değerlendirmesi
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="DanismaAcilisCümlesi" tabindex="-1" aria-labelledby="DanismaAcilisCümlesi"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="DanismaAcilisCümlesi">Açılış Cümlesi Uygun Kullanıldı Mı?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Açılış Cümlesi Uygun Kullanıldı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="DanismaYonlendirme" tabindex="-1" aria-labelledby="DanismaYonlendirme" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="DanismaYonlendirme">Doğru Yönlendirme Yapıldı Mı?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Doğru Yönlendirme Yapıldı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="DanismaOzel" tabindex="-1" aria-labelledby="DanismaOzel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="DanismaOzel">Özel Çağrı</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Özel Çağrı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="DanismaGorusme" tabindex="-1" aria-labelledby="DanismaGorusme" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="DanismaGorusme">Çok Uzun / Çok Kısa Görüşme Nedenini Belirtiniz</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Çok Uzun / Çok Kısa Görüşme Nedenini Belirtiniz
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Area-->
+  <div class="modal fade" id="DanismaSes" tabindex="-1" aria-labelledby="DanismaSes" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="DanismaSes">İletişim ve Ses Tonu Değerlendirmesi</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            İletişim ve Ses Tonu Değerlendirmesi
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="KurumAcilisCümlesi" tabindex="-1" aria-labelledby="KurumAcilisCümlesi" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="KurumAcilisCümlesi">Açılış Cümlesi Kullanıldı Mı?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Açılış Cümlesi Kullanıldı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="KurumDogru" tabindex="-1" aria-labelledby="KurumDogru" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="KurumDogru">Kurum Doğru Seçildi Mi?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Kurum Doğru Seçildi Mi?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="KurumAktarimCümlesi" tabindex="-1" aria-labelledby="KurumAktarimCümlesi"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="KurumAktarimCümlesi">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="KurumIletisim" tabindex="-1" aria-labelledby="KurumIletisim" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="KurumIletisim">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="KurumOzel" tabindex="-1" aria-labelledby="KurumOzel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="KurumOzel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="KurumSes" tabindex="-1" aria-labelledby="KurumSes" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="KurumSes">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="YanlisAcilisCümlesi" tabindex="-1" aria-labelledby="YanlisAcilisCümlesi"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="YanlisAcilisCümlesi">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="YanlisKapanisCümlesi" tabindex="-1" aria-labelledby="YanlisKapanisCümlesi"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="YanlisKapanisCümlesi">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="YanlisSes" tabindex="-1" aria-labelledby="YanlisSes" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="YanlisSes">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="KötüAcilis" tabindex="-1" aria-labelledby="KötüAcilis" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="KötüAcilis">Açılış Cümlesi</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Açılış Cümlesi
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="KötüUyari" tabindex="-1" aria-labelledby="KötüUyari" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="KötüUyari">Uyarı Cümlesi</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Uyarı Cümlesi
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="KötüSes" tabindex="-1" aria-labelledby="KötüSes" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="KötüSes">İletişim ve Ses Tonu</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            İletişim ve Ses Tonu Değerlendirmesi
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="YönAcilisCümlesi" tabindex="-1" aria-labelledby="YönAcilisCümlesi" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="YönAcilisCümlesi">Acilis Cümlesi</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Yön Acilis Cümlesi
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="YönAdres" tabindex="-1" aria-labelledby="YönAdres" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="YönAdres">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="YönKoordinasyon" tabindex="-1" aria-labelledby="YönKoordinasyon" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="YönKoordinasyon">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="YönYönlendirme" tabindex="-1" aria-labelledby="YönYönlendirme" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="YönYönlendirme">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="YönSes" tabindex="-1" aria-labelledby="YönSes" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="YönSes">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="YönEksik" tabindex="-1" aria-labelledby="YönEksik" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="YönEksik">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Area-->
+  <div class="modal fade" id="YönOzel" tabindex="-1" aria-labelledby="YönOzel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="YönOzel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Adres Uygun Şekilde Sorgulandı Mı?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

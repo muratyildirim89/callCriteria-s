@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../src/styleWait.css">
+  <title>Bekleme Sayfası</title>
+</head>
+
+<body>
+  <article class="clock">
+    <div class="hours-container">
+      <div class="hours"></div>
+    </div>
+    <div class="minutes-container">
+      <div class="minutes"></div>
+    </div>
+    <div class="seconds-container">
+      <div class="seconds"></div>
+    </div>
+  </article>
+  <script>
+    let date = new Date();
+    let seconds = date.getSeconds();
+    let minutes = date.getMinutes();
+    let hours = date.getHours();
+
+    var hands = [
+      {
+        hand: 'hours',
+        angle: (hours * 30) + (minutes / 2)
+      },
+      {
+        hand: 'minutes',
+        angle: (minutes * 6)
+      },
+      {
+        hand: 'seconds',
+        angle: (seconds * 6)
+      }
+    ];
+
+    for (var j = 0; j < hands.length; j++) {
+      var elements = document.querySelectorAll('.' + hands[j].hand);
+      for (var k = 0; k < elements.length; k++) {
+        elements[k].style.webkitTransform = 'rotateZ(' + hands[j].angle + 'deg)';
+        elements[k].style.transform = 'rotateZ(' + hands[j].angle + 'deg)';
+        if (hands[j].hand === 'minutes') {
+          elements[k].parentNode.setAttribute('data-second-angle', hands[j + 1].angle);
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+}
+
+.bodyLightThema {
+    background-color: #fff;
+}
+
+.bodyDarkThema {
+    background-color: rgb(190, 175, 175);
+}
+
+.btnFixedWidth {
+    width: 7rem;
+    margin-left: .4rem;
+}
+
+.navApp {
+    border-radius: .5rem;
+    background-color: #FC1700;
+    width: 100%;
+    height: 6rem;
+    display: inline-flexbox;
+    overflow: hidden;
+}
+
+.navDark {
+    background-color: rgb(190, 175, 175);
+}
+
+.divLogo {
+    background-image: "url('src/logoWhite.jpg')";
+}
+
+.divLogo {
+    height: 100%;
+    padding: 0;
+    display: inline-block;
+}
+
+.searchArea {
+    display: inline-flex;
+    width: 15%;
+    margin-left: 35%;
+}
+
+.searchText {
+    display: inline-flexbox;
+}
+
+.buttonsMenu {
+    float: right;
+    display: inline-flex;
+    margin-top: 28px;
+}
+
+article{
+    display: inline-block;
+    width: 70%;
+    height: 48rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.mainWorkArea {
+    background-color: rgb(255, 255, 255);
+    height: 40rem;
+    margin-left: 12px;
+}
+
+
+
+
+.nav-item{
+    padding-left: 20px;
+    font-size: large;
+}
+
+.formName{
+    padding-top: 0.5rem;
+    border-bottom: brown dotted 2px;   
+    padding-bottom: 0.5rem;
+}
+
+
+
+
+
+
+
+
+
+
+aside {
+    height: 48rem;
+    background-color: #D1E7DD;
+    display: inline-block;
+    width: 29.5%;
+    overflow: auto;
+}
+
+.asideDark{
+    background-color: rgb(33, 37, 41);
+}
+
+
+
+
+
+.showTable{
+    position: sticky;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+footer {
+    height: 2rem;
+    border-radius: .8rem;
+}
+
+tr {
+    cursor: pointer;
+}
+
+.logo {
+    position: 1px;
+    padding: 0.4em;
+    height: 100%;
+    width: auto;
+}
+
+#darkmode-toggle {
+    height: 50px;
+    width: 50px;
+}
+
+.commonOperation {
+    border-top: dotted 2px rgb(145, 55, 55);
+    height: 15rem;
+}
+
+.tablePersonal {
+    height: 2px;
+}
+
+.tablePersonal thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.tableShowPersonal {
+    position: sticky;
+
+}
+
+
+.workArea2 {
+    background-color: rgb(255, 255, 255);
+    color: rgb(33, 37, 41);
+    height: 16.02rem;
+}
+
+
+
+.workDark1 {
+    background-color: rgb(33, 37, 41);
+    color: #fff;
+}
+
+.workDark2 {
+    background-color: rgb(33, 37, 41);
+    color: #fff;
+}
+
+.tabItems{
+    color: black;
+}
+.nav-link{
+    background-color: #FC1700;
+}
+.tabItems:hover{
+    font-style: italic;
+}
+
